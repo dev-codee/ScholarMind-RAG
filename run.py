@@ -10,7 +10,14 @@ def main():
     # Define commands using the current python executable
     # This bypasses the broken Scripts\streamlit.exe launcher by using python -m streamlit
     backend_cmd = [sys.executable, "main.py"]
-    frontend_cmd = [sys.executable, "-m", "streamlit", "run", "frontend.py"]
+    
+    # Railway sets the PORT environment variable. If not set, default to 8501.
+    port = os.environ.get("PORT", "8501")
+    frontend_cmd = [
+        sys.executable, "-m", "streamlit", "run", "frontend.py", 
+        "--server.port", port, 
+        "--server.address", "0.0.0.0"
+    ]
     
     print("Starting ScholarMind Backend (FastAPI)...")
     backend_process = subprocess.Popen(backend_cmd)
