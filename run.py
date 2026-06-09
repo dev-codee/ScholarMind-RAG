@@ -20,7 +20,9 @@ def main():
     ]
     
     print("Starting ScholarMind Backend (FastAPI)...")
-    backend_process = subprocess.Popen(backend_cmd)
+    env = os.environ.copy()
+    env["PORT"] = "8000"  # Force Uvicorn to use 8000 internally so it doesn't conflict with Streamlit
+    backend_process = subprocess.Popen(backend_cmd, env=env)
     
     # Give the backend a second to start up before launching the frontend
     time.sleep(2)
